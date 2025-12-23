@@ -47,3 +47,54 @@ export function canEditTargetUser(currentRole: Role, targetRole: Role): boolean 
   if (currentRole === 'Admin') return true;
   return ROLE_HIERARCHY[currentRole] > ROLE_HIERARCHY[targetRole];
 }
+
+// Project permissions
+export function canManageMasterData(currentRole: Role): boolean {
+  return currentRole === 'Admin';
+}
+
+export function canCreateProject(currentRole: Role): boolean {
+  return ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto;
+}
+
+export function canEditProject(currentRole: Role): boolean {
+  return ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto;
+}
+
+export function canDeleteProject(currentRole: Role): boolean {
+  return currentRole === 'Admin';
+}
+
+export function canManageProjectTeam(currentRole: Role): boolean {
+  return ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto;
+}
+
+// Task permissions
+export function canCreateTask(currentRole: Role): boolean {
+  return ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto;
+}
+
+export function canEditTask(currentRole: Role): boolean {
+  return ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto;
+}
+
+export function canDeleteTask(currentRole: Role): boolean {
+  return ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto;
+}
+
+// Munkatars can edit actualHours and status on tasks assigned to them
+export function canEditTaskProgress(currentRole: Role, assigneeUserIds: string[], currentUserId: string): boolean {
+  if (ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto) return true;
+  if (currentRole === 'Munkatars' && assigneeUserIds.includes(currentUserId)) return true;
+  return false;
+}
+
+// Check if user has access to project (is in team or has high enough role)
+export function hasProjectAccess(
+  currentRole: Role, 
+  currentUserId: string, 
+  projectTeam: { userId: string }[]
+): boolean {
+  if (ROLE_HIERARCHY[currentRole] >= ROLE_HIERARCHY.CsoportVezeto) return true;
+  return projectTeam.some(member => member.userId === currentUserId);
+}

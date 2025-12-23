@@ -9,6 +9,15 @@ import { UserDetailPage } from './pages/users/UserDetailPage';
 import { UserFormPage } from './pages/users/UserFormPage';
 import { CompetencyListPage } from './pages/competencies/CompetencyListPage';
 import { SchedulePage } from './pages/schedule/SchedulePage';
+import { ProjectListPage } from './pages/projects/ProjectListPage';
+import { ProjectDetailPage } from './pages/projects/ProjectDetailPage';
+import { ProjectFormPage } from './pages/projects/ProjectFormPage';
+import { TaskDetailPage } from './pages/tasks/TaskDetailPage';
+import { TaskFormPage } from './pages/tasks/TaskFormPage';
+import { ProjectTagsPage } from './pages/admin/ProjectTagsPage';
+import { TaskTypesPage } from './pages/admin/TaskTypesPage';
+import { PrioritiesPage } from './pages/admin/PrioritiesPage';
+import { StatusesPage } from './pages/admin/StatusesPage';
 import { PlaceholderPage } from './pages/placeholders/PlaceholderPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -38,14 +47,28 @@ function AppRoutes() {
         }
       >
         <Route index element={<Navigate to="/users" replace />} />
+        {/* Users */}
         <Route path="users" element={<UserListPage />} />
         <Route path="users/new" element={<UserFormPage />} />
         <Route path="users/:id" element={<UserDetailPage />} />
         <Route path="users/:id/edit" element={<UserFormPage />} />
         <Route path="competencies" element={<CompetencyListPage />} />
         <Route path="schedule" element={<SchedulePage />} />
-        <Route path="projects" element={<PlaceholderPage />} />
-        <Route path="tasks" element={<PlaceholderPage />} />
+        {/* Projects */}
+        <Route path="projects" element={<ProjectListPage />} />
+        <Route path="projects/new" element={<ProjectFormPage />} />
+        <Route path="projects/:id" element={<ProjectDetailPage />} />
+        <Route path="projects/:id/edit" element={<ProjectFormPage />} />
+        {/* Tasks */}
+        <Route path="projects/:projectId/tasks/new" element={<TaskFormPage />} />
+        <Route path="projects/:projectId/tasks/:taskId" element={<TaskDetailPage />} />
+        <Route path="projects/:projectId/tasks/:taskId/edit" element={<TaskFormPage />} />
+        {/* Admin */}
+        <Route path="admin/project-tags" element={<ProjectTagsPage />} />
+        <Route path="admin/task-types" element={<TaskTypesPage />} />
+        <Route path="admin/priorities" element={<PrioritiesPage />} />
+        <Route path="admin/statuses" element={<StatusesPage />} />
+        {/* Placeholders */}
         <Route path="kpi" element={<PlaceholderPage />} />
         <Route path="resources" element={<PlaceholderPage />} />
         <Route path="timesheet" element={<PlaceholderPage />} />

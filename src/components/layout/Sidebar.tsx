@@ -4,7 +4,6 @@ import {
   AcademicCapIcon,
   CalendarDaysIcon,
   FolderIcon,
-  ClipboardDocumentListIcon,
   ChartBarIcon,
   CpuChipIcon,
   ClockIcon,
@@ -13,9 +12,13 @@ import {
   DocumentChartBarIcon,
   ArrowDownTrayIcon,
   Cog6ToothIcon,
+  TagIcon,
+  ListBulletIcon,
+  FlagIcon,
+  CheckCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useAuthStore } from '../../stores/authStore';
-import { canManageCompetencies } from '../../services/permissions';
+import { canManageCompetencies, canManageMasterData } from '../../services/permissions';
 
 interface NavItemProps {
   to: string;
@@ -55,6 +58,7 @@ function NavItem({ to, icon, label, disabled }: NavItemProps) {
 export function Sidebar() {
   const currentUser = useAuthStore((s) => s.currentUser);
   const canManageComps = currentUser ? canManageCompetencies(currentUser.role) : false;
+  const canManageMaster = currentUser ? canManageMasterData(currentUser.role) : false;
 
   return (
     <aside className="w-64 bg-white border-r border-gray-200 h-full flex flex-col">
@@ -79,8 +83,7 @@ export function Sidebar() {
           <p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
             Projektek
           </p>
-          <NavItem to="/projects" icon={<FolderIcon />} label="Projektek" disabled />
-          <NavItem to="/tasks" icon={<ClipboardDocumentListIcon />} label="Feladatok" disabled />
+          <NavItem to="/projects" icon={<FolderIcon />} label="Projektek" />
           <NavItem to="/kpi" icon={<ChartBarIcon />} label="KPI-ok" disabled />
         </div>
 
@@ -91,6 +94,18 @@ export function Sidebar() {
           <NavItem to="/resources" icon={<CpuChipIcon />} label="Erőforrás tervezés" disabled />
           <NavItem to="/timesheet" icon={<ClockIcon />} label="Munkaidő könyvelés" disabled />
         </div>
+
+        {canManageMaster && (
+          <div className="mb-4">
+            <p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Admin
+            </p>
+            <NavItem to="/admin/project-tags" icon={<TagIcon />} label="Projekt címkék" />
+            <NavItem to="/admin/task-types" icon={<ListBulletIcon />} label="Feladat típusok" />
+            <NavItem to="/admin/priorities" icon={<FlagIcon />} label="Prioritások" />
+            <NavItem to="/admin/statuses" icon={<CheckCircleIcon />} label="Státuszok" />
+          </div>
+        )}
 
         <div className="mb-4">
           <p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
