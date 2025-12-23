@@ -1,73 +1,119 @@
-# React + TypeScript + Vite
+# TMS - Task Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern PWA alkalmazás felhasználókezeléshez, offline támogatással.
 
-Currently, two official plugins are available:
+## Funkciók
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Felhasználókezelés (V1)
+- Felhasználók listázása, keresése, szűrése szerepkör szerint
+- Felhasználó részletek megtekintése
+- Felhasználók létrehozása és szerkesztése (jogosultságok alapján)
+- Kompetenciák hozzárendelése (autocomplete)
+- Munkarend kezelése (munkaidő, szabadságok)
 
-## React Compiler
+### Szerepkörök és jogosultságok
+- **Admin**: Mindent láthat/szerkeszthet, vezető szerepköröket is létrehozhat
+- **Osztályvezető**: Csoportvezető/Munkatárs/Megtekintő létrehozása
+- **Csoportvezető**: Munkatárs/Megtekintő létrehozása
+- **Munkatárs**: Csak megtekintés
+- **Megtekintő**: Csak megtekintés
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Kompetencia katalógus
+- Admin által kezelhető kompetencia lista
+- Kategorizálás támogatása
+- CRUD műveletek
 
-## Expanding the ESLint configuration
+### PWA és Offline támogatás
+- Service Worker automatikus frissítéssel
+- IndexedDB adattárolás
+- Offline módban is működik a teljes felhasználókezelés
+- Online/Offline státusz indikátor
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Frontend**: React 19 + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Storage**: IndexedDB (idb)
+- **PWA**: vite-plugin-pwa + Workbox
+- **Icons**: Heroicons
+- **Routing**: React Router v6
+- **Notifications**: React Hot Toast
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Telepítés és futtatás
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Függőségek telepítése
+npm install --include=dev
+
+# Fejlesztői szerver indítása
+npm run dev
+
+# Production build
+npm run build
+
+# Build előnézet
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## GitHub Pages deployment
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Build és deploy
+npm run deploy
 ```
+
+Az alkalmazás elérhető: https://kalmarpeterwebtown.github.io/teszt-pwa/
+
+## PWA telepítés
+
+1. Nyisd meg az alkalmazást Chrome-ban
+2. Kattints a címsor melletti "Telepítés" ikonra
+3. Vagy: Menü → "Alkalmazás telepítése"
+
+## Demo adatok
+
+Az első betöltéskor automatikusan létrejönnek demo felhasználók és kompetenciák.
+A bejelentkezési képernyőn a "Demo adatok újratöltése" gombbal visszaállíthatók az eredeti adatok.
+
+### Demo felhasználók
+- **Admin Béla** (Admin) - teljes hozzáférés
+- **Nagy István** (Osztályvezető)
+- **Kiss Katalin** (Csoportvezető)
+- **Tóth Péter** (Munkatárs)
+- **Szabó Anna** (Munkatárs)
+- **Kovács Gábor** (Megtekintő)
+
+## Mappastruktúra
+
+```
+src/
+├── components/
+│   ├── layout/         # Layout komponensek (Sidebar, Header)
+│   └── ui/             # UI komponensek (Button, Input, Modal, stb.)
+├── hooks/              # Custom React hooks
+├── pages/
+│   ├── users/          # Felhasználó oldalak
+│   ├── competencies/   # Kompetencia katalógus
+│   ├── schedule/       # Munkarend kezelés
+│   └── placeholders/   # Placeholder oldalak
+├── services/           # Adatbázis és üzleti logika
+├── stores/             # Zustand store-ok
+└── types/              # TypeScript típusok
+```
+
+## Jövőbeli modulok (Coming Soon)
+
+- Projektek
+- Feladatok
+- KPI-ok
+- Erőforrás tervezés
+- Munkaidő könyvelés
+- Értesítések
+- Dashboardok
+- Reportok
+- Exportok
+
+## Licensz
+
+MIT

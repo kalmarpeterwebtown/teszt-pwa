@@ -1,22 +1,26 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/teszt-pwa/",
   plugins: [
     react(),
+    tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Teszt PWA',
-        short_name: 'TesztPWA',
-        description: 'A Progressive Web App built with Vite and React',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        name: 'TMS - Task Management System',
+        short_name: 'TMS',
+        description: 'Task Management System PWA - Felhasználókezelés',
+        theme_color: '#2563eb',
+        background_color: '#f9fafb',
         display: 'standalone',
-        start_url: '/',
+        start_url: '/teszt-pwa/',
+        scope: '/teszt-pwa/',
         icons: [
           {
             src: 'pwa-192x192.png',
